@@ -80,6 +80,11 @@ export default function Home() {
       phase: index + 1,
     })),
   );
+  const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
+  const [continuity, setContinuity] = useState("continuity-stable");
+  const [trajectory, setTrajectory] = useState("clean-forward-motion");
+  const [pressureTags, setPressureTags] = useState<string[]>([]);
+  const [previousSessionId, setPreviousSessionId] = useState<string | null>(null);
 
   const plansQuery = trpc.billing.plans.useQuery();
   const billingStatusQuery = trpc.billing.status.useQuery(undefined, {
@@ -89,7 +94,14 @@ export default function Home() {
   const billingPortalMutation = trpc.billing.createBillingPortal.useMutation();
 
   useEffect(() => {
+    const handleAuthRequired = () => {
+      toast.info("Sign in is required for that protected action, but the canonical page will stay in place.");
+    };
+
+    window.addEventListener("nexinus:auth-required", handleAuthRequired as EventListener);
+
     return () => {
+      window.removeEventListener("nexinus:auth-required", handleAuthRequired as EventListener);
       setIsStreaming(false);
     };
   }, []);
@@ -112,6 +124,10 @@ export default function Home() {
       query: trimmed,
       mode,
     });
+
+    if (activeSessionId) {
+      params.set("sessionId", activeSessionId);
+    }
 
     const stream = new EventSource(`/api/xinus/clarity?${params.toString()}`);
     setIsStreaming(true);
@@ -146,7 +162,28 @@ export default function Home() {
       setSynthesysaction(payload.synthesysaction);
     });
 
-    stream.addEventListener("done", () => {
+    stream.addEventListener("mirror", event => {
+      const payload = JSON.parse((event as MessageEvent).data) as {
+        continuity?: string;
+        trajectory?: string;
+        resistanceTags?: string[];
+        trace?: {
+          previousSessionId?: string | null;
+        };
+      };
+      setContinuity(payload.continuity ?? "continuity-stable");
+      setTrajectory(payload.trajectory ?? "clean-forward-motion");
+      setPressureTags(Array.isArray(payload.resistanceTags) ? payload.resistanceTags : []);
+      setPreviousSessionId(payload.trace?.previousSessionId ?? null);
+    });
+
+    stream.addEventListener("done", event => {
+      const payload = JSON.parse((event as MessageEvent).data) as {
+        sessionId?: string;
+        previousSessionId?: string | null;
+      };
+      setActiveSessionId(payload.sessionId ?? null);
+      setPreviousSessionId(payload.previousSessionId ?? null);
       setIsStreaming(false);
       stream.close();
     });
@@ -154,7 +191,7 @@ export default function Home() {
     stream.onerror = () => {
       setIsStreaming(false);
       setTruthState("degraded");
-      toast.error("The clarity stream could not be completed.");
+      toast.error("The clarity stream could not be completed. If the mode is protected, sign in or change tiers before retrying.");
       stream.close();
     };
   };
@@ -404,6 +441,25 @@ export default function Home() {
               <div className="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
                 <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Truth state</p>
                 <p className="mt-3 text-lg font-medium capitalize text-white">{truthState}</p>
+              </div>
+
+              <div className="rounded-2xl border border-cyan-300/15 bg-cyan-300/5 p-4 text-sm text-slate-300">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Trajectory continuity</p>
+                    <p className="mt-2 font-medium text-white">{continuity}</p>
+                  </div>
+                  <Badge className="border border-cyan-300/20 bg-cyan-300/10 text-cyan-100">{trajectory}</Badge>
+                </div>
+                <p className="mt-3 leading-6">
+                  Active session: <span className="font-mono text-white">{activeSessionId ?? "none yet"}</span>
+                </p>
+                <p className="mt-2 leading-6">
+                  Previous session: <span className="font-mono text-white">{previousSessionId ?? "root"}</span>
+                </p>
+                <p className="mt-2 leading-6">
+                  Pressure tags: <span className="text-white">{pressureTags.length > 0 ? pressureTags.join(", ") : "none detected"}</span>
+                </p>
               </div>
 
               <Separator className="bg-white/10" />

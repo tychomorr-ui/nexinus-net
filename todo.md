@@ -13,7 +13,7 @@
 - [x] Ensure the seven bridge names appear exactly as: Transcend, Alchemy, Respond, Light Warrior, Archangel, VOCAI, IntelliGenerate.
 - [x] Keep all sensitive values out of code and sourced from environment configuration only.
 - [x] Write and run Vitest coverage for backend access control, mirror seeding, ledger verification, health checks, and Stripe-related server logic.
-- [ ] Verify the development environment status, update documentation, and prepare the project for final checkpoint and delivery.
+- [x] Verify the development environment status, update documentation, and prepare the project for final checkpoint and delivery.
 - [x] Wire the backend to the confirmed environment variable names `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and `XINUS_OWNER_KEY` without exposing secret values in code.
 - [x] Preserve compatibility with the existing deployment secret/config surface shown in the provided project environment screenshot.
 - [x] Express an always-alive, powerful canonical presence for NEXINUS.net through resilient architecture and sovereign frontend behavior rather than obscurity-based security.
@@ -23,3 +23,7 @@
 - [x] Add trajectory-aware continuity logic using IDENTI-SIGNAL and trace preservation so the system reconstructs progression rather than reacting to isolated slices.
 - [x] Refine resistance detection and escalation behavior so state progression is stable under repetition and only de-escalates on strong confusion signals.
 - [x] Reflect the canonical pipeline and alive-system framing from the provided Nexus OS references in the frontend presentation and OmniAPI interaction model.
+- [x] Fix the sovereign clarity engine bugs affecting the live canonical query experience.
+- [x] Fix the sign-in and runtime-routing bugs so authentication stays inside the intended NEXINUS.net app flow instead of falling into terminal or broken runtime behavior.
+- [x] Update `server/_core/sdk.ts` so OAuth token exchange derives the correct callback redirect URI from the encoded login state and stays consistent with the frontend and callback handlers.
+- [x] Add automated coverage for the login-state round trip so state encoding, backend decoding, and OAuth token exchange all agree on the exact callback redirect URI.
