@@ -1,0 +1,25 @@
+# Project TODO
+
+- [x] Build the dark sovereign landing page for NEXINUS.net with an asymmetric layout, Omni Sphere hero, seven-bridge navigation, and a CTA into the clarity engine.
+- [x] Implement the sovereign truth engine UI with SSE-powered clarity queries, real-time bridge field display, IDENTI-SIGNAL indicator, and synthesysaction output panel.
+- [x] Enforce owner-gated Omni and IntelliGenerate access using the exact `XINUS_OWNER_KEY` header and explicit admin role checks in protected procedures.
+- [x] Add exact health endpoint `/api/health` returning runtime status, database connectivity, and engine version.
+- [x] Add PostgreSQL-backed persistence for truth sessions and mirror events with startup migration and in-memory fallback when the database is unavailable.
+- [x] Implement production hardening for `NEXINUS.net`, including strict domain-aware CORS, rate limiting, secure headers, input validation, graceful DB failover, and structured error logging.
+- [x] Integrate Stripe subscription checkout, billing portal, secure webhooks, and tier/quota enforcement using environment-based secrets only.
+- [x] Implement the mirror registry `POST /mirror/seed` endpoint with idempotent `?append=1` mode, NFKC-normalized deduplication, and owner-signed `official.added` event chaining inside locked transactions.
+- [x] Add the mirror ledger verification endpoint at `/mirror/ledger/verify` returning verification status and total event count.
+- [x] Build the mirror registry frontend at `/mirror/registry` showing tier headings 100, 90, 80, 70, and 40 with all rows visible and no UI errors.
+- [x] Ensure the seven bridge names appear exactly as: Transcend, Alchemy, Respond, Light Warrior, Archangel, VOCAI, IntelliGenerate.
+- [x] Keep all sensitive values out of code and sourced from environment configuration only.
+- [x] Write and run Vitest coverage for backend access control, mirror seeding, ledger verification, health checks, and Stripe-related server logic.
+- [ ] Verify the development environment status, update documentation, and prepare the project for final checkpoint and delivery.
+- [x] Wire the backend to the confirmed environment variable names `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and `XINUS_OWNER_KEY` without exposing secret values in code.
+- [x] Preserve compatibility with the existing deployment secret/config surface shown in the provided project environment screenshot.
+- [x] Express an always-alive, powerful canonical presence for NEXINUS.net through resilient architecture and sovereign frontend behavior rather than obscurity-based security.
+- [x] Evaluate whether Stan Store Creator Pro should remain a secondary commerce surface that feeds into the canonical NEXINUS.net Stripe flow without displacing Manus-hosted identity and control.
+- [x] Add a free-trial path to the NEXINUS.net Stripe subscription model and reflect it cleanly in plan metadata, quota logic, and checkout behavior.
+- [x] Integrate a predictive pre-input pressure layer into the NEXINUS clarity engine so behavior can influence interpretation before the final response stage.
+- [x] Add trajectory-aware continuity logic using IDENTI-SIGNAL and trace preservation so the system reconstructs progression rather than reacting to isolated slices.
+- [x] Refine resistance detection and escalation behavior so state progression is stable under repetition and only de-escalates on strong confusion signals.
+- [x] Reflect the canonical pipeline and alive-system framing from the provided Nexus OS references in the frontend presentation and OmniAPI interaction model.
