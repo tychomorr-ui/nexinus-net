@@ -1,0 +1,25 @@
+def malleable_opportunity_layer(circle_a: float, circle_b: float, distance: float) -> dict:
+    """
+    Vesica Piscis as Malleable Opportunity Layer
+    Returns how much 'new creation space' exists between two realities
+    """
+    if distance >= circle_a + circle_b:
+        return {
+            "opportunity_score": 0.0,
+            "status": "No overlap - separate realities"
+        }
+    
+    if distance <= abs(circle_a - circle_b):
+        return {
+            "opportunity_score": 100.0,
+            "status": "Full overlap - total fusion"
+        }
+    
+    # Calculate the lens area (simplified)
+    overlap_ratio = (circle_a + circle_b - distance) / max(circle_a, circle_b)
+    opportunity_score = round(min(100, max(0, overlap_ratio * 100)), 2)
+    
+    return {
+        "opportunity_score": opportunity_score,
+        "status": "Malleable opportunity layer active" if opportunity_score > 25 else "Weak overlap"
+    }
