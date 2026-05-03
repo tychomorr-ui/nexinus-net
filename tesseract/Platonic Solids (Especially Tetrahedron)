@@ -1,0 +1,13 @@
+def tetrahedron_harmony(four_values: list) -> float:
+    """
+    Takes 4 values (representing the 4 faces of the tetrahedron)
+    Returns overall harmony score
+    """
+    if len(four_values) != 4:
+        return 0.0
+    
+    # Simple harmony = how balanced the four sides are
+    avg = sum(four_values) / 4
+    variance = sum((x - avg) ** 2 for x in four_values) / 4
+    harmony = max(0, 100 - (variance * 10))
+    return round(harmony, 2)
