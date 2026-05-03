@@ -1,0 +1,12 @@
+import math
+
+PHI = (1 + math.sqrt(5)) / 2   # 1.6180339887...
+
+def golden_harmony_score(value: float, ideal: float) -> float:
+    """
+    Returns how close a value is to Golden Ratio harmony (0-100)
+    """
+    ratio = value / ideal if ideal != 0 else 0
+    deviation = abs(ratio - PHI)
+    score = max(0, 100 - (deviation * 100))
+    return round(score, 2)
