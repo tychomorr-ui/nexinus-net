@@ -10,14 +10,28 @@ app = FastAPI(title="Omni API - Tesseract")
 class ChatRequest(BaseModel):
     message: str
     mode: str = "normal"
-
+    
 @app.post("/chat")
 async def chat(request: ChatRequest):
     result = process_user_input(request.message, request.mode)
     
-    # Here you would normally call the LLM with SYSTEM_PROMPT + user message
-    # For now we return the geometry analysis
+    # Call your Omni API
+    llm_response = await call_omni_api(
+        message=request.message,
+        system_prompt=SYSTEM_PROMPT,
+        mode=request.mode,
+        params=DEFAULT_PARAMS
+    )
     
+    return {
+        "system": "Tesseract Sovereign Truth Engine",
+        "geometry": result,  # Keep your geometry analysis
+        "response": llm_response,  # Add LLM response
+        "mode": request.mode
+    }
+    
+
+   
     return {
         "system": "Tesseract Sovereign Truth Engine",
         "result": result,
